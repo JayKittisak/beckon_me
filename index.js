@@ -2,8 +2,8 @@ require('dotenv').config()
 
 const express = require('express')
 const bodyParser = require('body-parser')
+const request = require('request')
 const app = express()
-
 const port = process.env.PORT || 3000
 const { LINE_ACCESS_TOKEN } = process.env
 
@@ -20,9 +20,11 @@ app.all('/test', (req, res) => {
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
+
+
 app.post('/webhook', (req, res) => {
-    // let reply_token = req.body.events[0].replyToken
-    // reply(reply_token)
+    let reply_token = req.body.events[0].replyToken
+    reply(reply_token)
     res.sendStatus(200)
 })
 
