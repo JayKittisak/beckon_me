@@ -146,7 +146,7 @@ async function beckon(license_plate) {
                     "text": `มีคนเรียกคุณไปที่รถ ทะเบียน: `
                 }
             ]
-            push(car.line_destination, msg)
+            push(car.lineID, msg)
             resolve()
         } else {
             resolve()
