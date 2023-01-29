@@ -124,8 +124,8 @@ async function beckon(license_plate) {
     new Promise(async (resolve, reject) => {
         var user_id = 0
         var cars = await mysql.queryDatabase(`select * from view_cars WHERE license_plate = '${license_plate}'`)
-        console.log('cars', cars);
-        if (users.length !== 0) {
+        console.log('cars length :', cars.length);
+        if (cars.length !== 0) {
             var car = cars[0]
             let msg = [
                 {
