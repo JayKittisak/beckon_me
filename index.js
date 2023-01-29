@@ -41,7 +41,7 @@ app.post('/register', async (req, res) => {
     await register(lineID, phone, license_plate, colour)
     res.sendStatus(200)
 })
-app.all('/beckon', (req, res) => {
+app.post('/beckon', (req, res) => {
     beckon('test')
     res.sendStatus(200)
 })
@@ -85,7 +85,7 @@ function push(lineID, messages) {
         body: body
     }, (err, res, body) => {
         console.log('status = ' + res.statusCode);
-        console.log(res);
+        // console.log(res);
     });
     console.log('-------');
 }
@@ -124,19 +124,19 @@ async function beckon(license_plate) {
     new Promise(async (resolve, reject) => {
         var user_id = 0
         var cars = await mysql.queryDatabase(`select * from view_cars WHERE license_plate = '${license_plate}'`)
+        console.log(`select * from view_cars WHERE license_plate = '${license_plate}'`);
         console.log('cars length :', cars.length);
         if (cars.length !== 0) {
             var car = cars[0]
             let msg = [
                 {
                     "type": "text",
-                    "text": `มีคนเรียกคุณไปที่รถ\nทะเบียน: ${car.license_plate}\nสีรถ: ${car.colour}`
+                    "text": `มีคนเรียกคุณไปที่รถ ทะเบียน: `
                 }
             ]
             push(car.line_destination, msg)
         } else {
 
         }
-        console.log('user_id', user_id);
     })
 }
