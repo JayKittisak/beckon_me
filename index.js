@@ -42,7 +42,8 @@ app.post('/register', async (req, res) => {
     res.sendStatus(200)
 })
 app.post('/beckon', async (req, res) => {
-    let data = await beckon('test')
+    let license_plate = req.body.license_plate
+    let data = await beckon(license_plate)
     res.status(200).json(data);
 })
 app.all('/get_cars',async (req, res) => {
@@ -144,12 +145,9 @@ async function beckon(license_plate) {
             let msg = [
                 {
                     "type": "text",
-                    "text": `มีคนเรียกคุณไปที่รถ ทะเบียน: `
+                    "text": `มีคนเรียกคุณไปที่รถ ทะเบียน: ${car.license_plate}`
                 }
             ]
-            console.log('car = ');
-            console.log(car);
-            console.log(msg);
             push(car.lineID, msg)
             resolve(car)
         } else {
