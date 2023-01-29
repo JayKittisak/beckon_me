@@ -13,8 +13,8 @@ app.all('/', (req, res) => {
     console.log("Just got a request!")
     res.send('Yo!')
 })
-app.all('/beckon', (req, res) => {
-    beckon('test')
+app.all('/test', (req, res) => {
+    push(req.body.lineID,req.body.messages)
     res.sendStatus(200)
 })
 
