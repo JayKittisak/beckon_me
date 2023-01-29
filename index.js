@@ -150,7 +150,7 @@ async function beckon(license_plate) {
             console.log('car = ');
             console.log(car);
             console.log(msg);
-            // push(car.lineID, msg)
+            push(car.lineID, msg)
             resolve(car)
         } else {
             resolve()
