@@ -9,7 +9,7 @@ exports.queryDatabase = async function queryDatabase(str_query) {
             const mysql = require('mysql2')
             const connection = mysql.createConnection(DATABASE_URL)
             // console.log('Connected to PlanetScale!')
-            console.log('str_query : ',str_query);
+            // console.log('str_query : ',str_query);
             connection.query(str_query,
                 function (err, results, fields) {
                     // console.log('err',err); // results contains rows returned by server

@@ -62,7 +62,7 @@ function reply(reply_token, messages) {
     });
 }
 function push(lineID, messages) {
-    // console.log('reply_token = ',reply_token);
+    console.log(`push(${lineID},${messages})`);
     let headers = {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer {' + LINE_ACCESS_TOKEN + '}'
@@ -71,6 +71,10 @@ function push(lineID, messages) {
         to: lineID,
         messages: messages
     })
+    console.log('headers');
+    console.log(headers);
+    console.log('body');
+    console.log(body);
     request.post({
         url: 'https://api.line.me/v2/bot/message/push',
         headers: headers,
@@ -79,6 +83,7 @@ function push(lineID, messages) {
         console.log('status = ' + res.statusCode);
         console.log(res);
     });
+    console.log('-------');
 }
 // register('1','123456','test','1234')
 async function register(lineID, phone, license_plate, colour) {
@@ -118,22 +123,22 @@ async function beckon(license_plate) {
             "text": `test from push`
         }
     ])
-    new Promise(async (resolve, reject) => {
-        var user_id = 0
-        var cars = await mysql.queryDatabase(`select * from view_cars WHERE license_plate = '${license_plate}'`)
-        console.log('cars', cars);
-        if (users.length !== 0) {
-            var car = cars[0]
-            let msg = [
-                {
-                    "type": "text",
-                    "text": `มีคนเรียกคุณไปที่รถ\nทะเบียน: ${car.license_plate}\nสีรถ: ${car.colour}`
-                }
-            ]
-            push(car.lineID, msg)
-        } else {
+    // new Promise(async (resolve, reject) => {
+    //     var user_id = 0
+    //     var cars = await mysql.queryDatabase(`select * from view_cars WHERE license_plate = '${license_plate}'`)
+    //     console.log('cars', cars);
+    //     if (users.length !== 0) {
+    //         var car = cars[0]
+    //         let msg = [
+    //             {
+    //                 "type": "text",
+    //                 "text": `มีคนเรียกคุณไปที่รถ\nทะเบียน: ${car.license_plate}\nสีรถ: ${car.colour}`
+    //             }
+    //         ]
+    //         push(car.lineID, msg)
+    //     } else {
 
-        }
-        console.log('user_id', user_id);
-    })
+    //     }
+    //     console.log('user_id', user_id);
+    // })
 }
