@@ -137,20 +137,23 @@ async function beckon(license_plate) {
         var user_id = 0
         var cars = await mysql.queryDatabase(`select * from view_cars WHERE license_plate = '${license_plate}'`)
         console.log(`select * from view_cars WHERE license_plate = '${license_plate}'`);
-        resolve(cars)
+        // resolve(cars)
         // console.log('cars length :', cars.length);
-        // if (cars.length !== 0) {
-        //     var car = cars[0]
-        //     let msg = [
-        //         {
-        //             "type": "text",
-        //             "text": `มีคนเรียกคุณไปที่รถ ทะเบียน: `
-        //         }
-        //     ]
-        //     // push(car.lineID, msg)
-        //     resolve()
-        // } else {
-        //     resolve()
-        // }
+        if (cars[0] !== undefined) {
+            var car = cars[0]
+            let msg = [
+                {
+                    "type": "text",
+                    "text": `มีคนเรียกคุณไปที่รถ ทะเบียน: `
+                }
+            ]
+            console.log('car = ');
+            console.log(car);
+            console.log(msg);
+            // push(car.lineID, msg)
+            resolve(car)
+        } else {
+            resolve()
+        }
     })
 }
