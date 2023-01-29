@@ -19,7 +19,9 @@ app.all('/beckon', (req, res) => {
 })
 
 app.post('/webhook', (req, res) => {
+     console.log(req.body);
     let reply_token = req.body.events[0].replyToken
+    
     massge = [
         {type:'text',text:'from webhook'}
     ]
@@ -38,17 +40,14 @@ app.post('/register', async (req, res) => {
 
 app.listen(port)
 function reply(reply_token,messages) {
-    console.log('reply_token = ',reply_token);
+    // console.log('reply_token = ',reply_token);
     let headers = {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer {' + LINE_ACCESS_TOKEN + '}'
     }
     let body = JSON.stringify({
         replyToken: reply_token,
-        messages: [{
-            type: 'text',
-            text: messages
-        }]
+        messages: messages
     })
     request.post({
         url: 'https://api.line.me/v2/bot/message/reply',
