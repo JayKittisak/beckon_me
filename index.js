@@ -45,8 +45,14 @@ app.post('/beckon', (req, res) => {
     beckon('test')
     res.sendStatus(200)
 })
+app.all('/get_cars',async (req, res) => {
+    let data = await get_cars()
+    res.status(200).json(data);
+})
 app.listen(port)
 console.log('running in port :',port);
+
+
 function reply(reply_token, messages) {
     // console.log('reply_token = ',reply_token);
     let headers = {
@@ -75,10 +81,10 @@ function push(lineID, messages) {
         to: lineID,
         messages: messages
     })
-    console.log('headers');
-    console.log(headers);
-    console.log('body');
-    console.log(body);
+    // console.log('headers');
+    // console.log(headers);
+    // console.log('body');
+    // console.log(body);
     request.post({
         url: 'https://api.line.me/v2/bot/message/push',
         headers: headers,
@@ -91,7 +97,7 @@ function push(lineID, messages) {
 }
 // register('1','123456','test','1234')
 async function register(lineID, phone, license_plate, colour) {
-    new Promise(async (resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         var user_id = 0
         var users = await mysql.queryDatabase(`select * from users WHERE lineID = '${lineID}'`)
         console.log('users', users);
@@ -119,9 +125,15 @@ async function register(lineID, phone, license_plate, colour) {
         console.log('car_id =', car_id);
     })
 }
-
+async function get_cars() {
+    return new Promise(async (resolve, reject) => {
+        var data = await mysql.queryDatabase(`select * from view_cars`)
+        console.log(data);
+        resolve(data)
+    })
+}
 async function beckon(license_plate) {
-    new Promise(async (resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         var user_id = 0
         var cars = await mysql.queryDatabase(`select * from view_cars WHERE license_plate = '${license_plate}'`)
         console.log(`select * from view_cars WHERE license_plate = '${license_plate}'`);
