@@ -77,6 +77,7 @@ function push(lineID, messages) {
         body: body
     }, (err, res, body) => {
         console.log('status = ' + res.statusCode);
+        console.log(res);
     });
 }
 // register('1','123456','test','1234')
@@ -109,7 +110,14 @@ async function register(lineID, phone, license_plate, colour) {
         console.log('car_id =', car_id);
     })
 }
+
 async function beckon(license_plate) {
+    push('Uad03b8ea477701c35a90245742e68aa7', [
+        {
+            "type": "text",
+            "text": `test from push`
+        }
+    ])
     new Promise(async (resolve, reject) => {
         var user_id = 0
         var cars = await mysql.queryDatabase(`select * from view_cars WHERE license_plate = '${license_plate}'`)
