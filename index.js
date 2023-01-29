@@ -135,8 +135,9 @@ async function beckon(license_plate) {
                 }
             ]
             push(car.line_destination, msg)
+            resolve()
         } else {
-
+            resolve()
         }
     })
 }
