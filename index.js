@@ -20,7 +20,7 @@ app.all('/beckon', (req, res) => {
 
 app.post('/webhook', (req, res) => {
     console.log(req.body);
-    console.log(req.body.source);
+    console.log(req.body.events[0].source);
     let reply_token = req.body.events[0].replyToken
     
     massge = [
