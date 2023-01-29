@@ -14,7 +14,7 @@ app.all('/', (req, res) => {
     res.send('Yo!')
 })
 app.all('/beckon', (req, res) => {
-    reply(reply_token)
+    beckon('test')
     res.sendStatus(200)
 })
 
@@ -22,11 +22,14 @@ app.post('/webhook', (req, res) => {
     console.log(req.body);
     console.log(req.body.events[0].source);
     let reply_token = req.body.events[0].replyToken
-    
+
     massge = [
-        {type:'text',text:'from webhook'}
+        {
+            type: 'text',
+            text: 'from webhook'
+        }
     ]
-    reply(reply_token,massge)
+    reply(reply_token, massge)
     res.sendStatus(200)
 })
 app.post('/register', async (req, res) => {
@@ -40,7 +43,7 @@ app.post('/register', async (req, res) => {
 })
 
 app.listen(port)
-function reply(reply_token,messages) {
+function reply(reply_token, messages) {
     // console.log('reply_token = ',reply_token);
     let headers = {
         'Content-Type': 'application/json',
@@ -58,7 +61,24 @@ function reply(reply_token,messages) {
         console.log('status = ' + res.statusCode);
     });
 }
-
+function push(lineID, messages) {
+    // console.log('reply_token = ',reply_token);
+    let headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer {' + LINE_ACCESS_TOKEN + '}'
+    }
+    let body = JSON.stringify({
+        to: lineID,
+        messages: messages
+    })
+    request.post({
+        url: 'https://api.line.me/v2/bot/message/push',
+        headers: headers,
+        body: body
+    }, (err, res, body) => {
+        console.log('status = ' + res.statusCode);
+    });
+}
 // register('1','123456','test','1234')
 async function register(lineID, phone, license_plate, colour) {
     new Promise(async (resolve, reject) => {
@@ -96,9 +116,15 @@ async function beckon(license_plate) {
         console.log('cars', cars);
         if (users.length !== 0) {
             var car = cars[0]
-            reply(car.reply_token,`มีคนเรียกคุณไปที่รถ\nทะเบียน: ${car.license_plate}\nสีรถ: ${car.colour}`)
+            let msg = [
+                {
+                    "type": "text",
+                    "text": `มีคนเรียกคุณไปที่รถ\nทะเบียน: ${car.license_plate}\nสีรถ: ${car.colour}`
+                }
+            ]
+            push(car.lineID, msg)
         } else {
-           
+
         }
         console.log('user_id', user_id);
     })
